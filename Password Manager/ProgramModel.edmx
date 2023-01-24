@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ProgramModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ProgramModelStoreContainer">
+    <EntitySet Name="Platforms" EntityType="ProgramModel.Store.Platforms" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="ProgramModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="UserPlatform" Association="ProgramModel.Store.UserPlatform">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Platform" EntitySet="Platforms" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Platforms">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="programName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="User_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="password" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="UserPlatform">
+    <End Role="User" Type="ProgramModel.Store.Users" Multiplicity="1" />
+    <End Role="Platform" Type="ProgramModel.Store.Platforms" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Platform">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ProgramModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ProgramModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Platforms" EntityType="ProgramModel.Platform" />
+          <EntitySet Name="Users" EntityType="ProgramModel.User" />
+          <AssociationSet Name="UserPlatform" Association="ProgramModel.UserPlatform">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Platform" EntitySet="Platforms" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Platform">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="programName" Type="String" Nullable="false" />
+          <Property Name="password" Type="String" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="ProgramModel.UserPlatform" FromRole="Platform" ToRole="User" />
+          <Property Name="User_id" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" />
+          <Property Name="password" Type="String" Nullable="false" />
+          <NavigationProperty Name="Platforms" Relationship="ProgramModel.UserPlatform" FromRole="User" ToRole="Platform" />
+        </EntityType>
+        <Association Name="UserPlatform">
+          <End Type="ProgramModel.User" Role="User" Multiplicity="1" />
+          <End Type="ProgramModel.Platform" Role="Platform" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Platform">
+              <PropertyRef Name="User_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ProgramModelStoreContainer" CdmEntityContainer="ProgramModelContainer">
+    <EntitySetMapping Name="Platforms">
+      <EntityTypeMapping TypeName="IsTypeOf(ProgramModel.Platform)">
+        <MappingFragment StoreEntitySet="Platforms">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="programName" ColumnName="programName" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="User_id" ColumnName="User_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(ProgramModel.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="password" ColumnName="password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

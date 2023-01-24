@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ProgramModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="ProgramModelContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Platforms" EntityType="ProgramModel.Platform" />
+    <EntitySet Name="Users" EntityType="ProgramModel.User" />
+    <AssociationSet Name="UserPlatform" Association="ProgramModel.UserPlatform">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Platform" EntitySet="Platforms" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Platform">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="programName" Type="String" Nullable="false" />
+    <Property Name="password" Type="String" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="ProgramModel.UserPlatform" FromRole="Platform" ToRole="User" />
+    <Property Name="User_id" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" />
+    <Property Name="password" Type="String" Nullable="false" />
+    <NavigationProperty Name="Platforms" Relationship="ProgramModel.UserPlatform" FromRole="User" ToRole="Platform" />
+  </EntityType>
+  <Association Name="UserPlatform">
+    <End Type="ProgramModel.User" Role="User" Multiplicity="1" />
+    <End Type="ProgramModel.Platform" Role="Platform" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Platform">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

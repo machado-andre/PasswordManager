@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ProgramModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ProgramModelStoreContainer">
+    <EntitySet Name="Platforms" EntityType="ProgramModel.Store.Platforms" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="ProgramModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="UserPlatform" Association="ProgramModel.Store.UserPlatform">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Platform" EntitySet="Platforms" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Platforms">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="programName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="User_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="password" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="UserPlatform">
+    <End Role="User" Type="ProgramModel.Store.Users" Multiplicity="1" />
+    <End Role="Platform" Type="ProgramModel.Store.Platforms" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Platform">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
